@@ -1,0 +1,122 @@
+.grade-card {
+  background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%);
+  border: 2px solid #667eea;
+}
+
+.grade-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.grade-display {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 15px 25px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.grade-number {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.grade-total {
+  font-size: 24px;
+  color: #666;
+}
+
+.grade-excellent .grade-number { color: #28a745; }
+.grade-good .grade-number { color: #20c997; }
+.grade-regular .grade-number { color: #ffc107; }
+.grade-low .grade-number { color: #dc3545; }
+
+.ai-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 25px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.ai-icon {
+  font-size: 32px;
+}
+
+.ai-info-banner {
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.ai-info-banner h3 {
+  margin: 0 0 10px 0;
+  color: #4a148c;
+}
+
+.status-message {
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.status-message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status-message.good {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-message.regular {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-message.low {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.feedback-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+.response-section {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.response-content {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
+.file-link {
+  display: inline-flex;
+  padding: 12px 20px;
+  background: #0066cc;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.info-card {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+}

@@ -1,0 +1,77 @@
+.course-title {
+  color: #666;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.cases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.case-item {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #0066cc;
+}
+
+.case-main {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.case-info h3 {
+  margin: 0 0 10px 0;
+}
+
+.case-description {
+  color: #666;
+  font-size: 14px;
+}
+
+.case-meta {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #555;
+}
+
+.case-status {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.case-grade {
+  text-align: center;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.grade-label {
+  font-size: 11px;
+  color: #999;
+}
+
+.grade-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.grade-good { color: #28a745; }
+.grade-regular { color: #ffc107; }
+.grade-low { color: #dc3545; }
+
+.case-actions {
+  display: flex;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}

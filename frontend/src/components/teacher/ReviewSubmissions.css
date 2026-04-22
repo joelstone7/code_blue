@@ -1,0 +1,129 @@
+.submission-details {
+  margin-bottom: 30px;
+}
+
+.detail-card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #0066cc;
+}
+
+.detail-card h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.detail-card p {
+  margin: 8px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+.response-section {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.response-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.response-section h4 {
+  margin: 0 0 10px 0;
+  color: #0066cc;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.response-text {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+  color: #333;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.questions-answers {
+  background: white;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.qa-item {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.qa-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.qa-item strong {
+  display: block;
+  color: #0066cc;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.qa-item p {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.file-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background: #0066cc;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.file-link:hover {
+  background: #0052a3;
+}
+
+.grading-section {
+  background: #fff3cd;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+  margin-bottom: 20px;
+}
+
+.grading-section h3 {
+  margin: 0 0 20px 0;
+  color: #856404;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .detail-card {
+    padding: 15px;
+  }
+
+  .response-text {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .grading-section {
+    padding: 15px;
+  }
+}

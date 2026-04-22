@@ -1,0 +1,141 @@
+/* CONTENEDOR GENERAL */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e7e4ff; /* FONDO NEGRO */
+  padding: 20px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* TARJETA PRINCIPAL */
+.login-card {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr; /* panel visual + formulario */
+  max-width: 900px;
+  width: 100%;
+  background: #cfd1ff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+}
+
+/* PANEL IZQUIERDO (branding) */
+.login-header {
+  background: linear-gradient(135deg, #003a8f, #0056b3);
+  color: #fff;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-header h1 {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.login-header p {
+  font-size: 15px;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+/* PANEL DERECHO (formulario) */
+.login-form {
+  padding: 60px 50px 20px;
+}
+
+/* FORM */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccd5e0;
+  background: #f9fbfd;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #003a8f;
+  background: #fff;
+}
+
+/* BOTÓN */
+.btn {
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #003a8f;
+  color: #fff;
+  border: none;
+  padding: 12px;
+}
+
+.btn-primary:hover {
+  background: #002f73;
+}
+
+.btn-block {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ALERTA */
+.alert {
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.alert-error {
+  background: #fdeaea;
+  color: #9f1d1d;
+  border: 1px solid #f5c2c2;
+}
+
+/* FOOTER */
+.login-footer {
+  padding: 0 50px 40px;
+  font-size: 12px;
+  color: #777;
+}
+
+/* RESPONSIVE (móvil) */
+@media (max-width: 768px) {
+  .login-card {
+    grid-template-columns: 1fr;
+  }
+
+  .login-header {
+    padding: 40px 30px;
+    text-align: center;
+  }
+
+  .login-form {
+    padding: 30px;
+  }
+
+  .login-footer {
+    padding: 0 30px 30px;
+    text-align: center;
+  }
+}

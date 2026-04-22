@@ -1,0 +1,71 @@
+.timer-display {
+  margin-top: 8px;
+  padding: 8px 15px;
+  background: #fff3cd;
+  border-radius: 6px;
+  display: inline-block;
+  font-size: 14px;
+  color: #856404;
+}
+
+.case-section {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.case-section h3 {
+  margin: 0 0 15px 0;
+  color: #0066cc;
+}
+
+.case-content {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.vitals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.vital-item {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.vital-label {
+  font-size: 12px;
+  color: #666;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.vital-value {
+  font-size: 18px;
+  color: #0066cc;
+  font-weight: bold;
+}
+
+.resources-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resource-link {
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.resource-link:hover {
+  background: #e9ecef;
+}
