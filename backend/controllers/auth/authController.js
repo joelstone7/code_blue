@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../../models/User');
 const { validationResult } = require('express-validator');
 
 // Generar JWT
@@ -23,33 +23,33 @@ exports.login = async (req, res) => {
 
     // Verificar dominio institucional
     if (!email.endsWith('@unifranz.edu.bo')) {
-      return res.status(400).json({ 
-        error: 'Solo se permiten correos institucionales @unifranz.edu.bo' 
+      return res.status(400).json({
+        error: 'Solo se permiten correos institucionales @unifranz.edu.bo'
       });
     }
 
     // Buscar usuario
     const user = await User.findOne({ where: { email } });
-    
+
     if (!user) {
-      return res.status(401).json({ 
-        error: 'Credenciales incorrectas' 
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
       });
     }
 
     // Verificar si está activo
     if (!user.activo) {
-      return res.status(403).json({ 
-        error: 'Usuario inactivo. Contacta al administrador' 
+      return res.status(403).json({
+        error: 'Usuario inactivo. Contacta al administrador'
       });
     }
 
     // Comparar contraseña
     const isMatch = await user.comparePassword(password);
-    
+
     if (!isMatch) {
-      return res.status(401).json({ 
-        error: 'Credenciales incorrectas' 
+      return res.status(401).json({
+        error: 'Credenciales incorrectas'
       });
     }
 
@@ -89,17 +89,17 @@ exports.changePassword = async (req, res) => {
     const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword || !newPassword) {
-      return res.status(400).json({ 
-        error: 'Se requiere contraseña actual y nueva' 
+      return res.status(400).json({
+        error: 'Se requiere contraseña actual y nueva'
       });
     }
 
     const user = await User.findByPk(req.user.id);
-    
+
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
-      return res.status(401).json({ 
-        error: 'Contraseña actual incorrecta' 
+      return res.status(401).json({
+        error: 'Contraseña actual incorrecta'
       });
     }
 

@@ -89,6 +89,12 @@ const MyCases = () => {
     }
   };
 
+  const getNivelBadge = (nivel) => {
+    if (nivel === 'avanzado')   return 'badge-danger';
+    if (nivel === 'intermedio') return 'badge-warning';
+    return 'badge-success';
+  };
+
   if (loading) {
     return (
       <div>
@@ -105,14 +111,12 @@ const MyCases = () => {
         <div className="page-header">
           <h1>Mis Casos Clínicos</h1>
           <button className="btn btn-primary" onClick={() => navigate('/teacher/create-case')}>
-            Crear Nuevo Caso
+            + Crear Nuevo Caso
           </button>
         </div>
 
         {message.text && (
-          <div className={`alert alert-${message.type}`}>
-            {message.text}
-          </div>
+          <div className={`alert alert-${message.type}`}>{message.text}</div>
         )}
 
         <div className="stats-summary">
@@ -142,48 +146,92 @@ const MyCases = () => {
           <div className="cases-grid">
             {cases.map((caseItem) => (
               <div key={caseItem.id} className="case-card">
+
+                {/* Header */}
                 <div className="case-header">
                   <h3>{caseItem.titulo}</h3>
-                  <span className={`badge ${caseItem.activo ? 'badge-success' : 'badge-danger'}`}>
-                    {caseItem.activo ? 'Activo' : 'Inactivo'}
-                  </span>
+                  <div className="case-header-badges">
+                    <span className={`badge ${caseItem.activo ? 'badge-success' : 'badge-danger'}`}>
+                      {caseItem.activo ? 'Activo' : 'Inactivo'}
+                    </span>
+                    {caseItem.nivel_dificultad && (
+                      <span className={`badge ${getNivelBadge(caseItem.nivel_dificultad)}`}>
+                        {caseItem.nivel_dificultad}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {caseItem.descripcion && (
                   <p className="case-description">{caseItem.descripcion}</p>
                 )}
 
+                {/* Info del caso */}
                 <div className="case-info">
+
+                  {/* Motivo de consulta — nuevo campo principal */}
+                  {caseItem.motivo_consulta && (
+                    <div className="info-item">
+                      <span className="info-label">Motivo de consulta</span>
+                      <span className="info-value">
+                        {caseItem.motivo_consulta.length > 100
+                          ? `${caseItem.motivo_consulta.substring(0, 100)}...`
+                          : caseItem.motivo_consulta}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Datos del paciente */}
+                  {(caseItem.paciente_edad || caseItem.paciente_sexo) && (
+                    <div className="info-item">
+                      <span className="info-label">Paciente</span>
+                      <span className="info-value">
+                        {[
+                          caseItem.paciente_edad ? `${caseItem.paciente_edad} años` : null,
+                          caseItem.paciente_sexo
+                        ].filter(Boolean).join(' · ')}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Fases del caso — nuevo */}
                   <div className="info-item">
-                    <span className="info-label">Historia Clínica:</span>
+                    <span className="info-label">Fases</span>
                     <span className="info-value">
-                      {caseItem.historiaClinica.length > 100 
-                        ? `${caseItem.historiaClinica.substring(0, 100)}...` 
-                        : caseItem.historiaClinica}
+                      <span className="fases-count">{caseItem.total_fases || 0}</span>
+                      {caseItem.fases && caseItem.fases.length > 0 && (
+                        <span className="fases-tipos">
+                          {caseItem.fases.map(f => f.tipoFase || f.tipo_fase).join(' → ')}
+                        </span>
+                      )}
                     </span>
                   </div>
 
+                  {/* Recursos */}
                   {caseItem.recursos && caseItem.recursos.length > 0 && (
                     <div className="info-item">
-                      <span className="info-label">Recursos:</span>
+                      <span className="info-label">Recursos</span>
                       <span className="info-value">
                         {caseItem.recursos.length} archivo(s) adjunto(s)
                       </span>
                     </div>
                   )}
 
+                  {/* Fecha */}
                   <div className="info-item">
-                    <span className="info-label">Creado:</span>
+                    <span className="info-label">Creado</span>
                     <span className="info-value">
-                      {new Date(caseItem.fechaCreacion).toLocaleDateString()}
+                      {new Date(caseItem.fecha_creacion || caseItem.fechaCreacion).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
 
+                {/* Acciones */}
                 <div className="case-actions">
                   <button
                     className="btn btn-primary btn-sm"
                     onClick={() => openAssignModal(caseItem)}
+                    disabled={!caseItem.activo}
                   >
                     Asignar a Curso
                   </button>
@@ -218,7 +266,10 @@ const MyCases = () => {
 
               <form onSubmit={handleAssign}>
                 <div className="assignment-info">
-                  <h3>Caso: {selectedCase?.titulo}</h3>
+                  <h3>{selectedCase?.titulo}</h3>
+                  {selectedCase?.total_fases && (
+                    <p>{selectedCase.total_fases} fase(s) · {selectedCase.nivel_dificultad}</p>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -247,7 +298,7 @@ const MyCases = () => {
                     onChange={(e) => setFechaVencimiento(e.target.value)}
                   />
                   <small className="form-text">
-                    Fecha recomendada para que los estudiantes completen el caso
+                    Fecha recomendada para completar el caso
                   </small>
                 </div>
 

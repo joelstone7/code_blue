@@ -27,33 +27,32 @@ const AdminDashboard = () => {
     return <div className="loading">Cargando estadísticas...</div>;
   }
 
-  const totalUsers = stats?.users?.reduce((sum, user) => sum + user.total, 0) || 0;
-  const admins = stats?.users?.find(u => u.rol === 'administrador')?.total || 0;
-  const teachers = stats?.users?.find(u => u.rol === 'docente')?.total || 0;
-  const students = stats?.users?.find(u => u.rol === 'estudiante')?.total || 0;
+  const admins   = stats?.users?.find(u => u.rol === 'administrador' && u.activo)?.total || 0;
+  const teachers = stats?.metrics?.teachersActive || 0;
+  const students = stats?.metrics?.studentsActive || 0;
 
   return (
     <div>
       <Navbar />
       <div className="container">
         <h1>Panel de Administración</h1>
-        
+
         <div className="stats-grid">
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
             <h3>{admins}</h3>
             <p>Administradores</p>
           </div>
-          
+
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
             <h3>{teachers}</h3>
             <p>Docentes</p>
           </div>
-          
+
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
             <h3>{students}</h3>
             <p>Estudiantes</p>
           </div>
-          
+
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}>
             <h3>{stats?.courses?.totalCursos || 0}</h3>
             <p>Cursos Activos</p>
@@ -71,7 +70,7 @@ const AdminDashboard = () => {
               <div></div>
               <div>Gestionar Usuarios</div>
             </button>
-            
+
             <button
               className="btn btn-success"
               onClick={() => navigate('/admin/courses')}
@@ -80,7 +79,7 @@ const AdminDashboard = () => {
               <div></div>
               <div>Gestionar Cursos</div>
             </button>
-            
+
             <button
               className="btn btn-secondary"
               onClick={() => navigate('/admin/statistics')}
@@ -132,10 +131,8 @@ const AdminDashboard = () => {
             <div>
               <h4>Promedio de Notas</h4>
               <p style={{ fontSize: '32px', fontWeight: 'bold', color: '#0066cc' }}>
-                {stats?.avgGrade?.promedioGeneral 
-                  ? (typeof stats.avgGrade.promedioGeneral === 'number'
-                      ? stats.avgGrade.promedioGeneral.toFixed(2)
-                      : parseFloat(stats.avgGrade.promedioGeneral).toFixed(2))
+                {stats?.avgGrade?.promedioGeneral
+                  ? stats.avgGrade.promedioGeneral.toFixed(2)
                   : 'N/A'}
               </p>
             </div>

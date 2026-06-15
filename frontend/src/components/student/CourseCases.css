@@ -1,9 +1,39 @@
+/* ── Título del curso ────────────────────────────────────────── */
 .course-title {
   color: #666;
-  font-size: 16px;
-  margin-top: 5px;
+  font-size: 15px;
+  margin: 4px 0 0 0;
 }
 
+/* ── Resumen de stats ────────────────────────────────────────── */
+.stats-summary {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0066cc;
+}
+
+/* ── Lista de casos ──────────────────────────────────────────── */
 .cases-list {
   display: flex;
   flex-direction: column;
@@ -11,67 +41,233 @@
   margin-top: 20px;
 }
 
+/* ── Tarjeta de caso ─────────────────────────────────────────── */
 .case-item {
   background: white;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-left: 4px solid #0066cc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #dee2e6;
+  transition: box-shadow 0.2s;
 }
 
+.case-item:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Estado en progreso resaltado */
+.case-in-progress {
+  border-left-color: #ffc107;
+  background: #fffdf5;
+}
+
+/* ── Parte principal ─────────────────────────────────────────── */
 .case-main {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
   margin-bottom: 15px;
 }
 
-.case-info h3 {
-  margin: 0 0 10px 0;
-}
-
-.case-description {
-  color: #666;
-  font-size: 14px;
-}
-
-.case-meta {
-  display: flex;
-  gap: 15px;
-  margin-top: 10px;
-  font-size: 13px;
-  color: #555;
-}
-
-.case-status {
+/* ── Info del caso ───────────────────────────────────────────── */
+.case-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 8px;
+}
+
+/* ── Fila de título y badges ─────────────────────────────────── */
+.case-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 10px;
 }
 
+.case-title-row h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.case-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+/* ── Descripción ─────────────────────────────────────────────── */
+.case-description {
+  color: #666;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Datos del paciente ──────────────────────────────────────── */
+.case-paciente {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Barra de progreso de fases ──────────────────────────────── */
+.fases-progreso {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.fases-progreso-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.fases-barra {
+  width: 100%;
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.fases-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.fill-calificado { background: #28a745; }
+.fill-enviado    { background: #0066cc; }
+.fill-progreso   { background: #ffc107; }
+.fill-vacio      { background: #dee2e6; }
+
+/* ── Meta info ───────────────────────────────────────────────── */
+.case-meta {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  font-size: 12px;
+  color: #666;
+}
+
+.meta-vencido {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.meta-enviado {
+  color: #28a745;
+}
+
+/* ── Nota del caso ───────────────────────────────────────────── */
+.case-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .case-grade {
-  text-align: center;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 15px;
   background: #f8f9fa;
   border-radius: 8px;
+  min-width: 70px;
+  text-align: center;
+}
+
+.ia-grade {
+  background: #f0eeff;
 }
 
 .grade-label {
   font-size: 11px;
   color: #999;
+  margin-bottom: 3px;
 }
 
 .grade-value {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
+  line-height: 1;
 }
 
-.grade-good { color: #28a745; }
-.grade-regular { color: #ffc107; }
-.grade-low { color: #dc3545; }
+.grade-total {
+  font-size: 12px;
+  color: #999;
+}
 
+.grade-good    { color: #28a745; }
+.grade-regular { color: #ffc107; }
+.grade-low     { color: #dc3545; }
+.grade-ia      { color: #667eea; }
+
+/* ── Acciones ────────────────────────────────────────────────── */
 .case-actions {
   display: flex;
   gap: 10px;
   padding-top: 15px;
   border-top: 1px solid #f0f0f0;
+}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.badge-success   { background: #d4edda; color: #155724; }
+.badge-info      { background: #d1ecf1; color: #0c5460; }
+.badge-warning   { background: #fff3cd; color: #856404; }
+.badge-danger    { background: #f8d7da; color: #721c24; }
+.badge-secondary { background: #e9ecef; color: #495057; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .case-main {
+    flex-direction: column;
+  }
+
+  .case-title-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .case-badges {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .case-status {
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .stats-summary {
+    gap: 12px;
+  }
+
+  .case-meta {
+    gap: 8px;
+  }
 }

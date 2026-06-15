@@ -1,11 +1,11 @@
-const User = require('../models/User');
+const User = require('../../models/User');
 const { Op } = require('sequelize');
 
 // Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
   try {
     const { rol, activo, search } = req.query;
-    
+
     const where = {};
     if (rol) where.rol = rol;
     if (activo !== undefined) where.activo = activo === 'true';
@@ -17,7 +17,7 @@ exports.getAllUsers = async (req, res) => {
       ];
     }
 
-    const users = await User.findAll({ 
+    const users = await User.findAll({
       where,
       order: [['fechaCreacion', 'DESC']]
     });
@@ -33,7 +33,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
-    
+
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
@@ -50,47 +50,37 @@ exports.createUser = async (req, res) => {
   try {
     const { nombre, apellido, email, password, rol } = req.body;
 
-    // Validar datos requeridos
     if (!nombre || !apellido || !email || !password || !rol) {
-      return res.status(400).json({ 
-        error: 'Todos los campos son requeridos' 
+      return res.status(400).json({
+        error: 'Todos los campos son requeridos'
       });
     }
 
-    // Validar dominio institucional
     if (!email.endsWith('@unifranz.edu.bo')) {
-      return res.status(400).json({ 
-        error: 'Solo se permiten correos institucionales @unifranz.edu.bo' 
+      return res.status(400).json({
+        error: 'Solo se permiten correos institucionales @unifranz.edu.bo'
       });
     }
 
-    // Validar rol
     const rolesValidos = ['administrador', 'docente', 'estudiante'];
     if (!rolesValidos.includes(rol)) {
-      return res.status(400).json({ 
-        error: 'Rol inválido' 
+      return res.status(400).json({
+        error: 'Rol inválido'
       });
     }
 
-    // Verificar si el email ya existe
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ 
-        error: 'El correo ya está registrado' 
+      return res.status(400).json({
+        error: 'El correo ya está registrado'
       });
     }
 
-    const user = await User.create({
-      nombre,
-      apellido,
-      email,
-      password,
-      rol
-    });
+    const user = await User.create({ nombre, apellido, email, password, rol });
 
-    res.status(201).json({ 
+    res.status(201).json({
       message: 'Usuario creado exitosamente',
-      user 
+      user
     });
   } catch (error) {
     console.error('Error al crear usuario:', error);
@@ -105,23 +95,22 @@ exports.updateUser = async (req, res) => {
     const { nombre, apellido, email, rol, activo } = req.body;
 
     const user = await User.findByPk(id);
-    
+
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    // Si se actualiza el email, validar dominio
     if (email && email !== user.email) {
       if (!email.endsWith('@unifranz.edu.bo')) {
-        return res.status(400).json({ 
-          error: 'Solo se permiten correos institucionales @unifranz.edu.bo' 
+        return res.status(400).json({
+          error: 'Solo se permiten correos institucionales @unifranz.edu.bo'
         });
       }
 
       const existingUser = await User.findOne({ where: { email } });
       if (existingUser) {
-        return res.status(400).json({ 
-          error: 'El correo ya está registrado' 
+        return res.status(400).json({
+          error: 'El correo ya está registrado'
         });
       }
     }
@@ -134,9 +123,9 @@ exports.updateUser = async (req, res) => {
       activo: activo !== undefined ? activo : user.activo
     });
 
-    res.json({ 
+    res.json({
       message: 'Usuario actualizado exitosamente',
-      user 
+      user
     });
   } catch (error) {
     console.error('Error al actualizar usuario:', error);
@@ -150,30 +139,25 @@ exports.deleteUser = async (req, res) => {
     const { id } = req.params;
 
     const user = await User.findByPk(id);
-    
+
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
     await user.update({ activo: false });
 
-    res.json({ 
-      message: 'Usuario desactivado exitosamente' 
-    });
+    res.json({ message: 'Usuario desactivado exitosamente' });
   } catch (error) {
     console.error('Error al eliminar usuario:', error);
     res.status(500).json({ error: 'Error al eliminar usuario' });
   }
 };
 
-// Obtener docentes
+// Obtener docentes activos
 exports.getTeachers = async (req, res) => {
   try {
-    const teachers = await User.findAll({ 
-      where: { 
-        rol: 'docente',
-        activo: true 
-      },
+    const teachers = await User.findAll({
+      where: { rol: 'docente', activo: true },
       order: [['apellido', 'ASC']]
     });
 
@@ -184,14 +168,11 @@ exports.getTeachers = async (req, res) => {
   }
 };
 
-// Obtener estudiantes
+// Obtener estudiantes activos
 exports.getStudents = async (req, res) => {
   try {
-    const students = await User.findAll({ 
-      where: { 
-        rol: 'estudiante',
-        activo: true 
-      },
+    const students = await User.findAll({
+      where: { rol: 'estudiante', activo: true },
       order: [['apellido', 'ASC']]
     });
 

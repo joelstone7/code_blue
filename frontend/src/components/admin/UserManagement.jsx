@@ -5,11 +5,11 @@ import './UserManagement.css';
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchDebounce, setSearchDebounce] = useState('');
   const [filterRole, setFilterRole] = useState('');
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -22,42 +22,38 @@ const UserManagement = () => {
     activo: true
   });
 
+  // Al montar el componente
   useEffect(() => {
     loadUsers();
   }, []);
 
+  // Debounce de 400ms sobre el searchTerm
   useEffect(() => {
-    filterUsers();
-  }, [users, searchTerm, filterRole]);
+    const timer = setTimeout(() => {
+      setSearchDebounce(searchTerm);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Cuando cambian los filtros, recargar desde el backend
+  useEffect(() => {
+    loadUsers();
+  }, [searchDebounce, filterRole]);
 
   const loadUsers = async () => {
     try {
       setLoading(true);
-      const response = await getUsers();
+      const params = {};
+      if (searchTerm) params.search = searchTerm;
+      if (filterRole) params.rol = filterRole;
+
+      const response = await getUsers(params);
       setUsers(response.data.users);
     } catch (error) {
       showMessage('error', 'Error al cargar usuarios');
     } finally {
       setLoading(false);
     }
-  };
-
-  const filterUsers = () => {
-    let filtered = [...users];
-
-    if (searchTerm) {
-      filtered = filtered.filter(user =>
-        user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.apellido.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (filterRole) {
-      filtered = filtered.filter(user => user.rol === filterRole);
-    }
-
-    setFilteredUsers(filtered);
   };
 
   const showMessage = (type, text) => {
@@ -106,13 +102,6 @@ const UserManagement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar email institucional
-    if (!formData.email.endsWith('@unifranz.edu.bo')) {
-      showMessage('error', 'Solo se permiten correos institucionales @unifranz.edu.bo');
-      return;
-    }
-
-    // Si es nuevo usuario, la contraseña es obligatoria
     if (!editingUser && !formData.password) {
       showMessage('error', 'La contraseña es obligatoria para nuevos usuarios');
       return;
@@ -120,7 +109,6 @@ const UserManagement = () => {
 
     try {
       if (editingUser) {
-        // Actualizar usuario
         const dataToUpdate = { ...formData };
         if (!dataToUpdate.password) {
           delete dataToUpdate.password;
@@ -128,7 +116,6 @@ const UserManagement = () => {
         await updateUser(editingUser.id, dataToUpdate);
         showMessage('success', 'Usuario actualizado exitosamente');
       } else {
-        // Crear usuario
         await createUser(formData);
         showMessage('success', 'Usuario creado exitosamente');
       }
@@ -248,14 +235,14 @@ const UserManagement = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.length === 0 ? (
+                {users.length === 0 ? (
                   <tr>
                     <td colSpan="7" className="text-center">
                       No se encontraron usuarios
                     </td>
                   </tr>
                 ) : (
-                  filteredUsers.map((user) => (
+                  users.map((user) => (
                     <tr key={user.id}>
                       <td>{user.id}</td>
                       <td>{user.nombre} {user.apellido}</td>
@@ -299,7 +286,6 @@ const UserManagement = () => {
           </div>
         </div>
 
-        {/* Modal para crear/editar usuario */}
         {showModal && (
           <div className="modal-overlay" onClick={closeModal}>
             <div className="modal" onClick={(e) => e.stopPropagation()}>

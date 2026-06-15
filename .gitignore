@@ -1,0 +1,20 @@
+# Node.js
+backend/node_modules/
+frontend/node_modules/
+
+# Variables de entorno
+backend/.env
+frontend/.env
+
+# Archivos generados
+backend/uploads/
+
+# Logs
+*.log
+
+# Vite
+frontend/dist/
+
+# Sistema
+.DS_Store
+Thumbs.db

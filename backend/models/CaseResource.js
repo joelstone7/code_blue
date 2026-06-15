@@ -16,6 +16,17 @@ const CaseResource = sequelize.define('RecursoCaso', {
       key: 'id'
     }
   },
+  // NULL = recurso general del caso
+  // con valor = recurso de una fase específica
+  faseId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    field: 'fase_id',
+    references: {
+      model: 'caso_fases',
+      key: 'id'
+    }
+  },
   tipoRecurso: {
     type: DataTypes.ENUM('imagen', 'pdf', 'video', 'otro'),
     allowNull: false,
@@ -35,6 +46,10 @@ const CaseResource = sequelize.define('RecursoCaso', {
     type: DataTypes.BIGINT,
     allowNull: true,
     field: 'tamanio_bytes'
+  },
+  descripcion: {
+    type: DataTypes.STRING(500),
+    allowNull: true
   },
   fechaSubida: {
     type: DataTypes.DATE,

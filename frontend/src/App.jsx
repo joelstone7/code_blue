@@ -13,9 +13,10 @@ import Statistics from './components/admin/Statistics';
 import TeacherDashboard from './components/teacher/TeacherDashboard';
 import CreateCase from './components/teacher/CreateCase';
 import MyCases from './components/teacher/MyCases';
-import CaseDetails from './components/teacher/CaseDetails'; // 🆕 NUEVO
+import CaseDetails from './components/teacher/CaseDetails'; //  NUEVO
 import TeacherCourses from './components/teacher/TeacherCourses';
 import ReviewSubmissions from './components/teacher/ReviewSubmissions';
+import ReviewDetail from './components/teacher/ReviewDetail'; // ← AGREGAR ESTA LÍNEA
 
 // Student Components
 import StudentDashboard from './components/student/StudentDashboard';
@@ -95,7 +96,7 @@ function App() {
               </PrivateRoute>
             }
           />
-          {/* 🆕 NUEVA RUTA: Ver/Editar Detalles del Caso */}
+          {/* NUEVA RUTA: Ver/Editar Detalles del Caso */}
           <Route
             path="/teacher/case/:id"
             element={
@@ -117,6 +118,15 @@ function App() {
             element={
               <PrivateRoute allowedRoles={['docente']}>
                 <ReviewSubmissions />
+              </PrivateRoute>
+            }
+          />
+          {/* ← AGREGAR ESTA RUTA NUEVA */}
+          <Route
+            path="/teacher/review/:respuestaId"
+            element={
+              <PrivateRoute allowedRoles={['docente']}>
+                <ReviewDetail />
               </PrivateRoute>
             }
           />

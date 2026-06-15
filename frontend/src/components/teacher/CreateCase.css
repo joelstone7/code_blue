@@ -1,32 +1,25 @@
+/* ── Grid de signos vitales ─────────────────────────────────── */
 .vitals-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 15px;
 }
 
-.pregunta-card {
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: #f8f9fa;
-}
-
-.pregunta-header {
+/* ── Acciones del formulario ────────────────────────────────── */
+.form-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #dee2e6;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #e9ecef;
 }
 
-.pregunta-header h3 {
-  margin: 0;
-  color: #333;
-  font-size: 16px;
+.form-actions button {
+  min-width: 150px;
 }
 
+/* ── Preview de archivos ────────────────────────────────────── */
 .files-preview {
   margin-top: 15px;
   padding: 15px;
@@ -57,28 +50,138 @@
   border-bottom: none;
 }
 
-.form-actions {
+/* ── Tarjeta de diagnóstico correcto (solo docente) ─────────── */
+.card-docente {
+  border-left: 4px solid #ffc107;
+  background-color: #fffdf0;
+}
+
+.badge-docente {
+  font-size: 11px;
+  background-color: #ffc107;
+  color: #333;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 500;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+/* ── Header de fases ────────────────────────────────────────── */
+.fases-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.fases-header h2 {
+  margin: 0;
+}
+
+/* ── Pestañas de fases ──────────────────────────────────────── */
+.fases-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.fase-tab {
+  position: relative;
+  padding: 8px 20px;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fase-tab:hover {
+  border-color: #0066cc;
+  color: #0066cc;
+}
+
+.fase-tab.active {
+  background-color: #0066cc;
+  border-color: #0066cc;
+  color: white;
+}
+
+/* Verde cuando la fase está completa */
+.fase-tab.completa:not(.active) {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+/* Naranja cuando la fase está incompleta */
+.fase-tab.incompleta:not(.active) {
+  border-color: #ffc107;
+  color: #856404;
+}
+
+.fase-tab-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.15);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.fase-tab-delete:hover {
+  background: rgba(220, 53, 69, 0.8);
+  color: white;
+}
+
+.fase-tab.active .fase-tab-delete {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── Editor de la fase activa ───────────────────────────────── */
+.fase-editor {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+/* ── Fila de preguntas secundarias ──────────────────────────── */
+.pregunta-secundaria-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.pregunta-secundaria-row .form-control {
+  flex: 1;
+}
+
+/* ── Form row ────────────────────────────────────────────────── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 15px;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 2px solid #e9ecef;
 }
 
-.form-actions button {
-  min-width: 150px;
-}
-
+/* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .vitals-grid {
     grid-template-columns: 1fr;
-  }
-
-  .pregunta-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
   }
 
   .form-actions {
@@ -86,6 +189,27 @@
   }
 
   .form-actions button {
+    width: 100%;
+  }
+
+  .fases-tabs {
+    gap: 6px;
+  }
+
+  .fase-tab {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .pregunta-secundaria-row {
+    flex-direction: column;
+  }
+
+  .pregunta-secundaria-row button {
     width: 100%;
   }
 }

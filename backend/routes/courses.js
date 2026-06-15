@@ -1,26 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const courseController = require('../controllers/courseController');
 const auth = require('../middleware/auth');
 const roleCheck = require('../middleware/roleCheck');
 
-// Rutas para docentes
-router.get('/teacher/my-courses', auth, roleCheck('docente'), courseController.getTeacherCourses);
+// Controladores separados por rol ← ACTUALIZADO
+const adminCourseController   = require('../controllers/admin/courseController');
+const teacherCourseController = require('../controllers/teacher/courseController');
+const studentCourseController = require('../controllers/student/courseController');
 
-// Rutas para estudiantes
-router.get('/student/my-courses', auth, roleCheck('estudiante'), courseController.getStudentCourses);
+// ── Docente ──────────────────────────────────────────────────────────────────
+router.get('/teacher/my-courses', auth, roleCheck('docente'), teacherCourseController.getTeacherCourses);
 
-// Rutas para administradores
-router.get('/', auth, roleCheck('administrador'), courseController.getAllCourses);
-router.get('/:id', auth, courseController.getCourseById);
-router.post('/', auth, roleCheck('administrador'), courseController.createCourse);
-router.put('/:id', auth, roleCheck('administrador'), courseController.updateCourse);
-router.delete('/:id', auth, roleCheck('administrador'), courseController.deleteCourse);
+// ── Estudiante ────────────────────────────────────────────────────────────────
+router.get('/student/my-courses', auth, roleCheck('estudiante'), studentCourseController.getStudentCourses);
+
+// ── Administrador ─────────────────────────────────────────────────────────────
+router.get('/',    auth, roleCheck('administrador'), adminCourseController.getAllCourses);
+router.post('/',   auth, roleCheck('administrador'), adminCourseController.createCourse);
+router.put('/:id', auth, roleCheck('administrador'), adminCourseController.updateCourse);
+router.delete('/:id', auth, roleCheck('administrador'), adminCourseController.deleteCourse);
 
 // Asignación de docentes y estudiantes (solo administrador)
-router.post('/assign-teacher', auth, roleCheck('administrador'), courseController.assignTeacher);
-router.post('/remove-teacher', auth, roleCheck('administrador'), courseController.removeTeacher);
-router.post('/enroll-student', auth, roleCheck('administrador'), courseController.enrollStudent);
-router.post('/remove-student', auth, roleCheck('administrador'), courseController.removeStudent);
+router.post('/assign-teacher',  auth, roleCheck('administrador'), adminCourseController.assignTeacher);
+router.post('/remove-teacher',  auth, roleCheck('administrador'), adminCourseController.removeTeacher);
+router.post('/enroll-student',  auth, roleCheck('administrador'), adminCourseController.enrollStudent);
+router.post('/remove-student',  auth, roleCheck('administrador'), adminCourseController.removeStudent);
+
+// ── Compartido ────────────────────────────────────────────────────────────────
+router.get('/:id', auth, adminCourseController.getCourseById);
 
 module.exports = router;

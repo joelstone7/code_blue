@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getStudentStats, getStudentCourses, getCasesByCourse } from '../../services/api';
+import { getStudentStats, getStudentCourses } from '../../services/api';
 import Navbar from '../common/Navbar';
 
 const StudentDashboard = () => {
@@ -29,30 +29,11 @@ const StudentDashboard = () => {
     }
   };
 
-  // 🔧 NUEVA FUNCIÓN: Encuentra el asignacionId correcto para resolver el caso
-  const handleResolveCase = async (pendingCase) => {
-    try {
-      // Buscar el curso que contiene este caso
-      const course = courses.find(c => c.nombre === pendingCase.nombreCurso);
-      
-      if (!course) {
-        console.error('Curso no encontrado');
-        return;
-      }
-
-      // Obtener los casos del curso para encontrar el asignacionId correcto
-      const casesRes = await getCasesByCourse(course.id);
-      const caseInCourse = casesRes.data.cases.find(c => c.titulo === pendingCase.tituloCaso);
-      
-      if (caseInCourse && caseInCourse.asignacionId) {
-        // Navegar con el asignacionId correcto
-        navigate(`/student/solve/${caseInCourse.asignacionId}`);
-      } else {
-        console.error('No se encontró el caso en el curso');
-      }
-    } catch (error) {
-      console.error('Error al resolver caso:', error);
-    }
+  const formatNota = (nota) => {
+    if (!nota) return 'N/A';
+    return typeof nota === 'number'
+      ? nota.toFixed(2)
+      : parseFloat(nota).toFixed(2);
   };
 
   if (loading) {
@@ -69,52 +50,44 @@ const StudentDashboard = () => {
       <Navbar />
       <div className="container">
         <h1>Mi Panel de Estudiante</h1>
-        
+
+        {/* ── Tarjetas de estadísticas ──────────────────────── */}
         <div className="stats-grid">
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-            <div className="stat-icon"></div>
             <div className="stat-content">
               <h3>{stats?.courses?.totalCursos || 0}</h3>
               <p>Cursos Inscritos</p>
             </div>
           </div>
-          
+
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
-            <div className="stat-icon"></div>
             <div className="stat-content">
               <h3>{stats?.cases?.casosDisponibles || 0}</h3>
               <p>Casos Disponibles</p>
             </div>
           </div>
-          
+
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
-            <div className="stat-icon"></div>
             <div className="stat-content">
               <h3>{stats?.cases?.casosCompletados || 0}</h3>
-              <p>Casos Completados</p>
+              <p>Casos Enviados</p>
             </div>
           </div>
-          
+
           <div className="stat-card" style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}>
-            <div className="stat-icon"></div>
             <div className="stat-content">
-              <h3>
-                {stats?.avgGrade?.promedioNotas 
-                  ? (typeof stats.avgGrade.promedioNotas === 'number' 
-                      ? stats.avgGrade.promedioNotas.toFixed(2) 
-                      : parseFloat(stats.avgGrade.promedioNotas).toFixed(2))
-                  : 'N/A'}
-              </h3>
+              <h3>{formatNota(stats?.avgGrade?.promedioNotas)}</h3>
               <p>Promedio de Notas</p>
             </div>
           </div>
         </div>
 
+        {/* ── Casos pendientes ──────────────────────────────── */}
         {stats?.pending && stats.pending.length > 0 && (
-          <div className="card" style={{ backgroundColor: '#fff3cd', borderLeft: '4px solid #ffc107' }}>
-            <h2>Casos Pendientes</h2>
+          <div className="card" style={{ borderLeft: '4px solid #ffc107', background: '#fffdf5' }}>
+            <h2>⚠ Casos Pendientes</h2>
             <p style={{ color: '#856404', marginBottom: '20px' }}>
-              Tienes {stats.pending.length} caso(s) clínico(s) sin resolver
+              Tienes {stats.pending.length} caso(s) sin completar
             </p>
             <table className="table">
               <thead>
@@ -128,16 +101,16 @@ const StudentDashboard = () => {
               </thead>
               <tbody>
                 {stats.pending.map((item, index) => {
-                  const isOverdue = item.fecha_vencimiento && new Date(item.fecha_vencimiento) < new Date();
+                  const isOverdue = item.fecha_vencimiento &&
+                    new Date(item.fecha_vencimiento) < new Date();
                   return (
                     <tr key={index}>
                       <td>{item.tituloCaso}</td>
                       <td>{item.nombreCurso}</td>
                       <td>
-                        {item.fecha_vencimiento ? 
-                          new Date(item.fecha_vencimiento).toLocaleDateString() : 
-                          'Sin fecha límite'
-                        }
+                        {item.fecha_vencimiento
+                          ? new Date(item.fecha_vencimiento).toLocaleDateString()
+                          : 'Sin fecha límite'}
                       </td>
                       <td>
                         <span className={`badge ${isOverdue ? 'badge-danger' : 'badge-warning'}`}>
@@ -145,12 +118,11 @@ const StudentDashboard = () => {
                         </span>
                       </td>
                       <td>
-                        {/* 🔧 CORREGIDO: Ahora usa la función handleResolveCase */}
                         <button
                           className="btn btn-primary btn-sm"
-                          onClick={() => handleResolveCase(item)}
+                          onClick={() => navigate(`/student/solve/${item.asignacionId}`)}
                         >
-                          Resolver
+                          Resolver →
                         </button>
                       </td>
                     </tr>
@@ -161,6 +133,7 @@ const StudentDashboard = () => {
           </div>
         )}
 
+        {/* ── Mis Cursos ────────────────────────────────────── */}
         <div className="card">
           <h2>Mis Cursos</h2>
           {courses.length === 0 ? (
@@ -168,18 +141,27 @@ const StudentDashboard = () => {
               <p>No estás inscrito en ningún curso aún</p>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px', marginTop: '20px' }}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+              gap: '20px',
+              marginTop: '20px'
+            }}>
               {courses.map((course) => (
-                <div key={course.id} className="card" style={{ margin: 0, cursor: 'pointer' }} onClick={() => navigate(`/student/course/${course.id}`)}>
+                <div
+                  key={course.id}
+                  className="card"
+                  style={{ margin: 0, cursor: 'pointer' }}
+                  onClick={() => navigate(`/student/course/${course.id}`)}
+                >
                   <h3>{course.nombre}</h3>
                   <p style={{ color: '#666', fontSize: '14px', marginBottom: '15px' }}>
-                    {course.codigo} - {course.semestre} {course.anio}
+                    {course.codigo}
+                    {course.semestre && ` · ${course.semestre}`}
+                    {course.anio && ` ${course.anio}`}
                   </p>
-                  <button
-                    className="btn btn-primary"
-                    style={{ width: '100%' }}
-                  >
-                    Ver Casos
+                  <button className="btn btn-primary" style={{ width: '100%' }}>
+                    Ver Casos →
                   </button>
                 </div>
               ))}
@@ -187,6 +169,7 @@ const StudentDashboard = () => {
           )}
         </div>
 
+        {/* ── Últimas Calificaciones ────────────────────────── */}
         {stats?.recentGrades && stats.recentGrades.length > 0 && (
           <div className="card">
             <h2>Últimas Calificaciones</h2>
@@ -197,6 +180,7 @@ const StudentDashboard = () => {
                   <th>Curso</th>
                   <th>Nota</th>
                   <th>Fecha</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -206,14 +190,26 @@ const StudentDashboard = () => {
                     <td>{item.nombreCurso}</td>
                     <td>
                       <span className={`badge ${
-                        item.nota >= 70 ? 'badge-success' : 
-                        item.nota >= 50 ? 'badge-warning' : 
+                        item.nota >= 70 ? 'badge-success' :
+                        item.nota >= 50 ? 'badge-warning' :
                         'badge-danger'
                       }`}>
-                        {item.nota}/100
+                        {parseFloat(item.nota).toFixed(1)}/100
                       </span>
                     </td>
-                    <td>{new Date(item.fecha_retroalimentacion).toLocaleDateString()}</td>
+                    <td>
+                      {new Date(item.fecha_retroalimentacion).toLocaleDateString()}
+                    </td>
+                    <td>
+                      {item.asignacionId && (
+                        <button
+                          className="btn btn-secondary btn-sm"
+                          onClick={() => navigate(`/student/feedback/${item.asignacionId}`)}
+                        >
+                          Ver feedback
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>

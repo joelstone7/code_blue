@@ -1,129 +1,201 @@
-.submission-details {
-  margin-bottom: 30px;
+/* ── Subtítulo de tarjeta ────────────────────────────────────── */
+.card-subtitle {
+  color: #666;
+  font-size: 14px;
+  margin: -10px 0 20px 0;
 }
 
-.detail-card {
-  background: #f8f9fa;
-  padding: 20px;
+/* ── Lista de entregas ───────────────────────────────────────── */
+.submissions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ── Tarjeta de entrega ──────────────────────────────────────── */
+.submission-card {
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.submission-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Parte principal de la tarjeta ──────────────────────────── */
+.submission-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 18px 20px;
+  gap: 20px;
+}
+
+/* ── Info del estudiante ─────────────────────────────────────── */
+.submission-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.submission-info small {
+  color: #666;
+  font-size: 13px;
+}
+
+.submission-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.meta-caso,
+.meta-curso {
+  font-size: 13px;
+  color: #555;
+}
+
+/* ── Stats de la entrega ─────────────────────────────────────── */
+.submission-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Progreso de fases ───────────────────────────────────────── */
+.fases-progreso {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  width: 130px;
+}
+
+.fases-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.fases-barra {
+  width: 100%;
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.fases-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0066cc, #00c6ff);
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* ── Tiempo ──────────────────────────────────────────────────── */
+.tiempo-info {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ── Nota sugerida por IA ────────────────────────────────────── */
+.ia-sugerencia {
+  font-size: 13px;
+  color: #667eea;
+  background: #f0eeff;
+  padding: 4px 10px;
   border-radius: 8px;
-  margin-bottom: 20px;
-  border-left: 4px solid #0066cc;
 }
 
-.detail-card h3 {
-  margin: 0 0 15px 0;
-  color: #333;
-  font-size: 18px;
-}
-
-.detail-card p {
-  margin: 8px 0;
-  color: #555;
-  font-size: 14px;
-}
-
-.response-section {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.response-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.response-section h4 {
-  margin: 0 0 10px 0;
-  color: #0066cc;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.response-text {
-  background: white;
-  padding: 15px;
-  border-radius: 6px;
-  color: #333;
-  line-height: 1.6;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.questions-answers {
-  background: white;
-  padding: 15px;
-  border-radius: 6px;
-}
-
-.qa-item {
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.qa-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.qa-item strong {
-  display: block;
-  color: #0066cc;
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-.qa-item p {
-  margin: 0;
-  color: #555;
-  line-height: 1.5;
-}
-
-.file-link {
-  display: inline-flex;
+/* ── Footer de la tarjeta ────────────────────────────────────── */
+.submission-footer {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  padding: 10px 15px;
-  background: #0066cc;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: background 0.2s;
+  padding: 12px 20px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
 }
 
-.file-link:hover {
-  background: #0052a3;
+.submission-fecha {
+  font-size: 13px;
+  color: #666;
 }
 
-.grading-section {
-  background: #fff3cd;
-  padding: 20px;
-  border-radius: 8px;
-  border-left: 4px solid #ffc107;
+/* ── Badges ──────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.badge-success { background: #d4edda; color: #155724; }
+.badge-warning { background: #fff3cd; color: #856404; }
+.badge-danger  { background: #f8d7da; color: #721c24; }
+
+/* ── Resumen de estadísticas ─────────────────────────────────── */
+.stats-summary {
+  display: flex;
+  gap: 30px;
   margin-bottom: 20px;
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
-.grading-section h3 {
-  margin: 0 0 20px 0;
-  color: #856404;
-  font-size: 18px;
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .detail-card {
-    padding: 15px;
+  .submission-main {
+    flex-direction: column;
   }
 
-  .response-text {
-    padding: 12px;
-    font-size: 13px;
+  .submission-stats {
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
-  .grading-section {
-    padding: 15px;
+  .fases-progreso {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .submission-footer {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .submission-footer .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .stats-summary {
+    flex-direction: column;
+    gap: 10px;
   }
 }

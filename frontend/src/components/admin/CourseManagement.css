@@ -65,8 +65,11 @@
 }
 
 .modal-large {
-  max-width: 900px;
-  width: 95%;
+  max-width: 1700px;
+  width: 98vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .manage-content {
@@ -99,6 +102,7 @@
 
 .assign-form select {
   flex: 1;
+  min-width: 0;
 }
 
 .assign-form button {
@@ -106,7 +110,7 @@
 }
 
 .members-list {
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
 }
 
@@ -119,6 +123,7 @@
   background: white;
   border-radius: 6px;
   border: 1px solid #e9ecef;
+  gap: 10px;
 }
 
 .member-item:last-child {
@@ -133,6 +138,7 @@
 .member-item small {
   color: #6c757d;
   font-size: 12px;
+  word-break: break-all;
 }
 
 .empty-text {
@@ -162,7 +168,7 @@
   }
 
   .modal-large {
-    width: 100%;
+    width: 100vw;
     max-height: 95vh;
     overflow-y: auto;
   }

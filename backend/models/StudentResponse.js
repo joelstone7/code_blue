@@ -25,37 +25,46 @@ const StudentResponse = sequelize.define('RespuestaEstudiante', {
       key: 'id'
     }
   },
-  diagnostico: {
-    type: DataTypes.TEXT,
-    allowNull: true
+  // Fase en la que está actualmente
+  faseActual: {
+    type: DataTypes.INTEGER,
+    defaultValue: 1,
+    field: 'fase_actual'
   },
-  tratamiento: {
-    type: DataTypes.TEXT,
-    allowNull: true
+  estado: {
+    type: DataTypes.ENUM('en_progreso', 'enviado', 'calificado'),
+    defaultValue: 'en_progreso'
   },
-  respuestasPreguntas: {
-    type: DataTypes.JSON,
+  tiempoTotalMinutos: {
+    type: DataTypes.INTEGER,
     allowNull: true,
-    field: 'respuestas_preguntas'
+    field: 'tiempo_total_minutos'
+  },
+  // Respuesta final (última fase)
+  diagnosticoFinal: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    field: 'diagnostico_final'
+  },
+  tratamientoFinal: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    field: 'tratamiento_final'
   },
   archivoAdjunto: {
     type: DataTypes.STRING(500),
     allowNull: true,
     field: 'archivo_adjunto'
   },
-  estado: {
-    type: DataTypes.ENUM('pendiente', 'enviado', 'calificado'),
-    defaultValue: 'pendiente'
+  fechaInicio: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    field: 'fecha_inicio'
   },
   fechaEnvio: {
     type: DataTypes.DATE,
     allowNull: true,
     field: 'fecha_envio'
-  },
-  fechaCreacion: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-    field: 'fecha_creacion'
   },
   fechaActualizacion: {
     type: DataTypes.DATE,

@@ -16,18 +16,10 @@ const Login = () => {
     setError('');
     setLoading(true);
 
-    // Validar dominio institucional
-    if (!email.endsWith('@unifranz.edu.bo')) {
-      setError('Solo se permiten correos institucionales @unifranz.edu.bo');
-      setLoading(false);
-      return;
-    }
-
     const result = await login(email, password);
     setLoading(false);
 
     if (result.success) {
-      // Redirigir según el rol
       switch (result.user.rol) {
         case 'administrador':
           navigate('/admin/dashboard');
