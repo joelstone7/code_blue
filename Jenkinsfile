@@ -21,10 +21,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Todas las pruebas pasaron correctamente'
+            echo 'Todas las pruebas pasaron correctamente'
         }
         failure {
-            echo '❌ Algunas pruebas fallaron'
+            echo 'Algunas pruebas fallaron'
         }
     }
 }
