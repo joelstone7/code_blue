@@ -3,11 +3,6 @@ const CasePhase = require('../../models/CasePhase');
 const CaseResource = require('../../models/CaseResource');
 const { sequelize } = require('../../config/database');
 
-// ─────────────────────────────────────────────────────────────
-// Obtener caso por ID con todas sus fases
-// El estudiante ve el caso completo pero solo puede responder
-// la fase en la que se encuentra actualmente
-// ─────────────────────────────────────────────────────────────
 exports.getCaseById = async (req, res) => {
   try {
     const { id } = req.params;
