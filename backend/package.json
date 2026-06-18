@@ -29,6 +29,18 @@
   },
   "devDependencies": {
     "jest": "^30.3.0",
+    "jest-html-reporter": "^4.4.0",
     "nodemon": "^3.0.1"
+  },
+  "jest": {
+    "reporters": [
+      "default",
+      ["jest-html-reporter", {
+        "pageTitle": "BlueCodeSim - Reporte de Pruebas",
+        "outputPath": "reports/test-report.html",
+        "includeFailureMsg": true,
+        "includeConsoleLog": true
+      }]
+    ]
   }
 }
