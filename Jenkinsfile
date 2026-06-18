@@ -17,14 +17,27 @@ pipeline {
                 }
             }
         }
+
+        stage('Publicar reporte') {
+            steps {
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'backend/reports',
+                    reportFiles: 'test-report.html',
+                    reportName: 'Reporte de Pruebas Jest'
+                ])
+            }
+        }
     }
-//holaaaaaa
+
     post {
         success {
-            echo 'Todas las pruebas pasaron correctamente'
+            echo '✅ Todas las pruebas pasaron correctamente'
         }
         failure {
-            echo 'Algunas pruebas fallaron'
+            echo '❌ Algunas pruebas fallaron'
         }
     }
 }
